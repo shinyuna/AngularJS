@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>JSON</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+	<div class="friends" ng-app="myApp" ng-controller="myFriends">
+		<form>
+			<input type="text" class="form-control" placeholder="Search..." ng-model="search">
+		</form>
+		<table class="table table-bordered table-hover">
+			<tr class="active">
+				<td>이름</td>
+				<td>생년월일</td>
+				<td>Email</td>
+				<td>Phone</td>
+			</tr>
+			<tr ng-repeat="friend in friends" ng-if="friend.name.toLowerCase().match(search.toLowerCase())">
+				<td>{{friend.name}}</td>
+				<td>{{friend.birth}}</td>
+				<td>{{friend.email}}</td>
+				<td>{{friend.phone}}</td>
+			</tr>
+		</table>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0-rc.2/angular.min.js"></script>
+	<script>
+		var app = angular.module("myApp",[]);
+		app.controller("myFriends",function($scope,$http){
+			$http.get("friends.json").then(function(f){
+				$scope.friends = f.data;
+			});
+		});
+	</script>
+	<script>
+		// $.getJSON("friends.json",function(data){
+		// 	//console.log(data);
+		// 	if( ! data ) return;
+		// 	for(var i=0; i<data.length; i++){
+		// 		var html = "<p>" + data[i].name + "</p>";
+		// 		$(".friends").append(html);
+		// 	}
+		// });
+	</script>
+</body>
+</html>
